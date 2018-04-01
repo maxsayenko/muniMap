@@ -1,4 +1,19 @@
 .freeways {
     stroke: blue !important;
+    stroke-width: 3px !important;
+}
+
+.neighborhoods {
+    stroke: green !important;
+    stroke-width: 1px !important;
+}
+
+.streets {
+    stroke: '#222' !important;
+    stroke-width: 1px !important;
+}
+
+.arteries {
+    stroke: yellow !important;
     stroke-width: 2px !important;
 }
