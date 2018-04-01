@@ -11,7 +11,8 @@ export default class Home extends React.Component {
         this.mapScaleExtent = [1 << 20, 1 << 24];
         this.mapCenter = [-122.42, 37.76];
         this.state = {
-            freewaysData: null
+            freewaysData: null,
+            neighborhoodsData: null
         };
     }
 
@@ -23,36 +24,58 @@ export default class Home extends React.Component {
                     freewaysData: data
                 });
             });
+
+        fetch('/assets/sfmaps/neighborhoods.json')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    neighborhoodsData: data
+                });
+            });
     }
 
     render() {
-        if(!this.state.freewaysData) {
-            return(
+        if (!this.state.freewaysData || !this.state.neighborhoodsData) {
+            return (
                 <div>Loading</div>
             );
         }
 
+        console.log('Loaded');
+
         return (
             <Map
-                width= {this.mapWidth}
-                height= {this.mapHeight}
-                scale= {this.mapScale}
+                width = {this.mapWidth}
+                height = {this.mapHeight}
+                scale = {this.mapScale}
                 scaleExtent = {this.mapScaleExtent}
-                center= {this.mapCenter}
-              >
-                  <g>
+                center = {this.mapCenter}
+            >
+                  <g className = 'freeways-g'>
                         <LineGroup
-                            key= {"line-test"}
-                            data= {this.state.freewaysData}
+                            key = {'line-test'}
+                            data = {this.state.freewaysData}
                             //popupContent= {popupContent}
                             // onClick= {onLineClick}
                             // onCloseClick= {onLineCloseClick}
                             // onMouseOver= {onLineMouseOver}
                             // onMouseOut= {onLineMouseOut}
-                            meshClass= {"freeways"}
+                            meshClass = {'freeways'}
+                        />
+                  </g>
+                  <g className = 'streets-g'>
+                        <LineGroup
+                            key = {'line-test'}
+                            data = {this.state.neighborhoodsData}
+                            //popupContent= {popupContent}
+                            // onClick= {onLineClick}
+                            // onCloseClick= {onLineCloseClick}
+                            // onMouseOver= {onLineMouseOver}
+                            // onMouseOut= {onLineMouseOut}
+                            meshClass = {'freeways'}
                         />
                   </g>
               </Map>
-        )
+        );
     }
 }
