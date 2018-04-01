@@ -16,11 +16,9 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        console.log('Mount');
         fetch('/assets/sfmaps/freeways.json')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 this.setState({
                     freewaysData: data
                 });
@@ -28,16 +26,11 @@ export default class Home extends React.Component {
     }
 
     render() {
-        console.log('Render');
-        console.log(this.state.freewaysData);
-
         if(!this.state.freewaysData) {
             return(
                 <div>Loading</div>
             );
         }
-
-
 
         return (
             <Map
