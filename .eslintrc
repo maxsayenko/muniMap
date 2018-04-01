@@ -1,0 +1,16 @@
+{
+    "extends": "rallycoding",
+    "rules": {
+        "arrow-body-style": 0,
+        "react/jsx-equals-spacing": [1, "always"],
+        "max-len": ["off", { "ignoreRegExpLiterals": true }],
+        "no-undef": ["warn"],
+        "no-shadow": ["off"]
+    },
+    "ecmaFeatures": {
+        "jsx": true
+    },
+    "plugins": [
+        "react"
+    ]
+}
