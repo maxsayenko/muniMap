@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Map, LineGroup } from 'react-d3-map';
+import { Map, LineGroup, MarkerGroup } from 'react-d3-map';
 
 export default class Home extends React.Component {
     constructor() {
@@ -14,11 +14,73 @@ export default class Home extends React.Component {
             freewaysData: null,
             neighborhoodsData: null,
             streetsData: null,
-            arteriesData: null
+            arteriesData: null,
+            muniData: null
         };
     }
 
+    convertNextbusDataToGeoJSON(nextbusVehicles) {
+        // [
+        //     {
+        //       "id": "6657",
+        //       "lon": "-122.443657",
+        //       "routeTag": "38R",
+        //       "predictable": "true",
+        //       "speedKmHr": "42",
+        //       "dirTag": "38R__I_F00",
+        //       "heading": "75",
+        //       "lat": "37.782684",
+        //       "secsSinceReport": "24"
+        //     }
+        //   ]
+        if(nextbusVehicles && Array.isArray(nextbusVehicles)) {
+
+            const geoJson = {
+                "type": "FeatureCollection",
+                "features": []
+            };
+            let feature = {
+                "type": "Feature",
+                "properties": { },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [ -122.443657, 37.782684]
+                }
+            }
+
+            _.each(nextbusVehicles, (vehicleInfo) => {
+                console.log(vehicleInfo.lon, vehicleInfo.lat);
+                let featureClone = _.cloneDeep(feature);
+                featureClone.geometry.coordinates = [vehicleInfo.lon, vehicleInfo.lat];
+                console.log(featureClone);
+                geoJson.features.push(featureClone);
+            });
+
+            return geoJson;
+        }
+    }
+
     componentDidMount() {
+        // fetch(`http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R&t=${(new Date).getTime()}`)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         // this.setState({
+        //         //     muniData: data
+        //         // });
+        //     });
+        //
+        //
+        fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    muniData: this.convertNextbusDataToGeoJSON(data.vehicle)
+                });
+                console.log('MuniData');
+                console.log(this.state.muniData);
+            });
+
         fetch('/assets/sfmaps/freeways.json')
             .then(response => response.json())
             .then(data => {
@@ -50,16 +112,25 @@ export default class Home extends React.Component {
                     arteriesData: data
                 });
             });
+
+        fetch('/assets/sfmaps/arteries.json')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    arteriesData: data
+                });
+            });
     }
 
     render() {
-        if (!this.state.freewaysData || !this.state.neighborhoodsData || !this.state.arteriesData || !this.state.streetsData) {
+        if (!this.state.freewaysData || !this.state.neighborhoodsData || !this.state.arteriesData || !this.state.streetsData || !this.state.muniData) {
             return (
                 <div>Loading</div>
             );
         }
 
         console.log('Loaded');
+        console.log(this.state.muniData);
 
         return (
             <Map
@@ -96,6 +167,13 @@ export default class Home extends React.Component {
                             data = {this.state.arteriesData}
                             meshClass = {'arteries'}
                         />
+                  </g>
+                  <g className = 'points-g'>
+                      <MarkerGroup
+                        key = {'polygon-test'}
+                        data = {this.state.muniData}
+                        markerClass = {'your-marker-css-class'}
+                      />
                   </g>
               </Map>
         );
