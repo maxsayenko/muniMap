@@ -9,7 +9,7 @@ export default class Home extends React.Component {
         this.mapHeight = 1800;
         this.mapScale = 1 << 22;
         this.mapScaleExtent = [1 << 20, 1 << 24];
-        this.mapCenter = [-122.42, 37.76];
+        this.mapCenter = [-122.44, 37.76];
         this.state = {
             freewaysData: null,
             neighborhoodsData: null,
