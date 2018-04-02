@@ -50,7 +50,7 @@ export default class MapView extends React.Component {
     }
 
     getNextBusFeed() {
-        fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R')
+        fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni')
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -91,6 +91,7 @@ export default class MapView extends React.Component {
             };
 
             _.each(nextbusVehicles, (vehicleInfo) => {
+                if (vehicleInfo.routeTag !== '38') return true;
                 const featureClone = _.cloneDeep(feature);
                 featureClone.geometry.coordinates = [vehicleInfo.lon, vehicleInfo.lat];
                 geoJson.features.push(featureClone);

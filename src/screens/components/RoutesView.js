@@ -26,7 +26,7 @@ export default class RoutesView extends React.Component {
                     <li
                         key = {i}
                     >
-                        <input type = 'checkbox' name = 'route' value = {route.tag} />
+                        <input type = 'checkbox' name = 'route' value = {route.tag} defaultChecked />
                             <label htmlFor = 'route'>{route.title}</label>
                     </li>
                 );
