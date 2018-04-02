@@ -1,24 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { LineGroup, MarkerGroup } from 'react-d3-map';
-// app component
-export default class MapComponent extends React.Component {
-    // <g className = 'points-g'>
-    //     <MarkerGroup
-    //       key = {'polygon-test'}
-    //       data = {muniData}
-    //       markerClass = {'points'}
-    //     />
-    // </g>
-    //
-    // <g className = 'arteries-g'>
-    //       <LineGroup
-    //           key = {'line-test'}
-    //           data = {arteriesData}
-    //           meshClass = {'arteries'}
-    //       />
-    // </g>
 
+export default class MapComponent extends React.Component {
     getGroup(type, name, data) {
         switch(type) {
             case 'line':
