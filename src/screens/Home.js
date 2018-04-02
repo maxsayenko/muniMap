@@ -11,13 +11,15 @@ class Home extends React.Component {
     }
 
     render() {
-        const { selectedRoutesChanged } = this.props;
+        const { selectedRoutesChanged, selectedRoutes } = this.props;
         return (
             <div className = 'map'>
                 <RoutesView
                     onRoutesChange = {selectedRoutesChanged}
                 />
-                <MapView />
+                <MapView
+                    selectedRoutes = {selectedRoutes}
+                />
             </div>
         );
     }

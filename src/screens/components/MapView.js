@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Map } from 'react-d3-map';
 
@@ -49,6 +50,10 @@ export default class MapView extends React.Component {
         ]);
     }
 
+    componentWillReceiveProps() {
+        this.getNextBusFeed();
+    }
+
     getNextBusFeed() {
         fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni')
             .then(response => response.json())
@@ -76,6 +81,7 @@ export default class MapView extends React.Component {
     }
 
     convertNextbusDataToGeoJSON(nextbusVehicles) {
+        const { selectedRoutes } = this.props;
         if (nextbusVehicles && Array.isArray(nextbusVehicles)) {
             const geoJson = {
                 type: 'FeatureCollection',
@@ -91,7 +97,7 @@ export default class MapView extends React.Component {
             };
 
             _.each(nextbusVehicles, (vehicleInfo) => {
-                if (vehicleInfo.routeTag !== '38') return true;
+                if (!_.includes(selectedRoutes, vehicleInfo.routeTag)) return true;
                 const featureClone = _.cloneDeep(feature);
                 featureClone.geometry.coordinates = [vehicleInfo.lon, vehicleInfo.lat];
                 geoJson.features.push(featureClone);
@@ -149,4 +155,5 @@ export default class MapView extends React.Component {
 }
 
 MapView.propTypes = {
+    selectedRoutes: PropTypes.array.isRequired
 };
