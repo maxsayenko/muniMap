@@ -1,8 +1,7 @@
 import React from 'react';
-import _ from 'lodash';
-import { Map } from 'react-d3-map';
 
 import MapView from './components/MapView';
+import RoutesView from './components/RoutesView';
 
 export default class Home extends React.Component {
     constructor() {
@@ -12,6 +11,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <div className = 'map'>
+                <RoutesView />
                 <MapView />
             </div>
         );

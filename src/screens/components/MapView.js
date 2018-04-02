@@ -105,7 +105,7 @@ export default class MapView extends React.Component {
     render() {
         if (!this.state.muniData) {
             return (
-                <div>Loading</div>
+                <div>Loading Map</div>
             );
         }
 
