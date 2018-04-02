@@ -1,9 +1,9 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import MapView from './components/MapView';
 import RoutesView from './components/RoutesView';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor() {
         super();
     }
@@ -17,3 +17,14 @@ export default class Home extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    const { selectedRoutes } = state.routes;
+    return { selectedRoutes };
+};
+
+export default connect(
+    mapStateToProps,
+    {
+    }
+)(Home);
