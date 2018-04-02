@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 export default class RoutesView extends React.Component {
@@ -31,7 +32,7 @@ export default class RoutesView extends React.Component {
                             name = 'route'
                             value = {route.tag}
                             //defaultChecked
-                            onClick = {this.handleClick}
+                            onClick = {this.handleClick.bind(this)}
                         />
                             <label htmlFor = 'route'>{route.title}</label>
                     </li>
@@ -43,6 +44,7 @@ export default class RoutesView extends React.Component {
     }
 
     handleClick(e) {
+        const { onRoutesChange } = this.props;
         const target = e.target;
         const checkboxes = target.parentElement.parentElement.getElementsByTagName('input');
         const selectedCheckboxes = _.reduce(checkboxes, (res, checkbox) => {
@@ -51,8 +53,7 @@ export default class RoutesView extends React.Component {
             }
             return res;
         }, []);
-
-        console.log(selectedCheckboxes);
+        onRoutesChange(selectedCheckboxes);
     }
 
     render() {
@@ -73,4 +74,5 @@ export default class RoutesView extends React.Component {
 }
 
 RoutesView.propTypes = {
+    onRoutesChange: PropTypes.func.isRequired
 };

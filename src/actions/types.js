@@ -1,1 +1,1 @@
-export const SELCTED_ROUTES_CHANGED = 'selected_routes_changed';
+export const SELECTED_ROUTES_CHANGED = 'selected_routes_changed';
