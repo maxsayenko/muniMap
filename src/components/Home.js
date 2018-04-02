@@ -22,19 +22,6 @@ export default class Home extends React.Component {
     }
 
     convertNextbusDataToGeoJSON(nextbusVehicles) {
-        // [
-        //     {
-        //       "id": "6657",
-        //       "lon": "-122.443657",
-        //       "routeTag": "38R",
-        //       "predictable": "true",
-        //       "speedKmHr": "42",
-        //       "dirTag": "38R__I_F00",
-        //       "heading": "75",
-        //       "lat": "37.782684",
-        //       "secsSinceReport": "24"
-        //     }
-        //   ]
         if(nextbusVehicles && Array.isArray(nextbusVehicles)) {
             const geoJson = {
                 "type": "FeatureCollection",
@@ -45,7 +32,7 @@ export default class Home extends React.Component {
                 "properties": { },
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [ -122.443657, 37.782684]
+                    "coordinates": []
                 }
             }
 
