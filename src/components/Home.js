@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Map, LineGroup, MarkerGroup } from 'react-d3-map';
+import { Map } from 'react-d3-map';
 
 import MapComponent from './MapComponent';
 
@@ -61,6 +61,22 @@ export default class Home extends React.Component {
         throw new Error('Nextbus vehicles array is missing');
     }
 
+    fetchGeoJsonFiles(filesToFetch) {
+        if(!filesToFetch || !Array.isArray(filesToFetch)) {
+            throw new Error('Geo Files needs to be an Array');
+        }
+
+        _.each(filesToFetch, (fileObj) => {
+            fetch(fileObj.name)
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        [fileObj.stateName]: data
+                    });
+                });
+        });
+    }
+
     componentDidMount() {
         fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R')
             .then(response => response.json())
@@ -70,37 +86,24 @@ export default class Home extends React.Component {
                 });
             });
 
-        fetch('/assets/sfmaps/freeways.json')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    freewaysData: data
-                });
-            });
-
-        fetch('/assets/sfmaps/neighborhoods.json')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    neighborhoodsData: data
-                });
-            });
-
-        fetch('/assets/sfmaps/streets.json')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    streetsData: data
-                });
-            });
-
-        fetch('/assets/sfmaps/arteries.json')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    arteriesData: data
-                });
-            });
+        this.fetchGeoJsonFiles([
+            {
+                name: '/assets/sfmaps/freeways.json',
+                stateName: 'freewaysData'
+            },
+            {
+                name: '/assets/sfmaps/neighborhoods.json',
+                stateName: 'neighborhoodsData'
+            },
+            {
+                name: '/assets/sfmaps/streets.json',
+                stateName: 'streetsData'
+            },
+            {
+                name: '/assets/sfmaps/arteries.json',
+                stateName: 'arteriesData'
+            }
+        ]);
     }
 
     render() {
