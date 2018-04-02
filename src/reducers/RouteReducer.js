@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SELECTED_ROUTES_CHANGED:
-            return { ...INITIAL_STATE, selectedRoutes: action.payload };
+            return { selectedRoutes: action.payload };
         default:
             return state;
     }
