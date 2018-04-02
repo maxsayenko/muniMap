@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Map } from 'react-d3-map';
 
-import MapComponent from './MapComponent';
+import MapComponent from './components/MapComponent';
 
 export default class Home extends React.Component {
     constructor() {
