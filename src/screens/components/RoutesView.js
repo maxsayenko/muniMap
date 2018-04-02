@@ -20,12 +20,6 @@ export default class RoutesView extends React.Component {
     }
 
     getRoutesItems(routes) {
-//         tag
-// :
-// "MBUS"
-// title
-// :
-// "MBUS-M Oceanview Bus"
         if (routes && Array.isArray(routes)) {
             return _.map(routes, (route, i) => {
                 return (
@@ -48,8 +42,6 @@ export default class RoutesView extends React.Component {
                 <div>Loading routes</div>
             );
         }
-
-        console.log(this.state.routes);
 
         return (
             <div className = 'routes'>
