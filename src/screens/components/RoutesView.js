@@ -26,7 +26,13 @@ export default class RoutesView extends React.Component {
                     <li
                         key = {i}
                     >
-                        <input type = 'checkbox' name = 'route' value = {route.tag} defaultChecked />
+                        <input
+                            type = 'checkbox'
+                            name = 'route'
+                            value = {route.tag}
+                            //defaultChecked
+                            onClick = {this.handleClick}
+                        />
                             <label htmlFor = 'route'>{route.title}</label>
                     </li>
                 );
@@ -34,6 +40,19 @@ export default class RoutesView extends React.Component {
         }
 
         return null;
+    }
+
+    handleClick(e) {
+        const target = e.target;
+        const checkboxes = target.parentElement.parentElement.getElementsByTagName('input');
+        const selectedCheckboxes = _.reduce(checkboxes, (res, checkbox) => {
+            if (checkbox.checked) {
+                res.push(checkbox.value);
+            }
+            return res;
+        }, []);
+
+        console.log(selectedCheckboxes);
     }
 
     render() {
