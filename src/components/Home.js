@@ -7,6 +7,7 @@ import MapComponent from './MapComponent';
 export default class Home extends React.Component {
     constructor() {
         super();
+        this.updateInterval = 15000;
         this.mapWidth = 2000;
         this.mapHeight = 1800;
         this.mapScale = 1 << 22;
@@ -66,7 +67,6 @@ export default class Home extends React.Component {
     }
 
     getNextBusFeed() {
-        console.log('getNextBusFeed at', new Date());
         fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R')
             .then(response => response.json())
             .then(data => {
@@ -77,10 +77,10 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        const interval = window.setInterval(() => {
-                            this.getNextBusFeed()
-                        }, 5000)
-        this.setState({ interval })
+        const interval = window.setInterval(() => this.getNextBusFeed(), this.updateInterval);
+        this.setState({ interval });
+
+        this.getNextBusFeed();
 
         this.fetchGeoJsonFiles([
             {
