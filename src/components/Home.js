@@ -34,7 +34,6 @@ export default class Home extends React.Component {
         //     }
         //   ]
         if(nextbusVehicles && Array.isArray(nextbusVehicles)) {
-
             const geoJson = {
                 "type": "FeatureCollection",
                 "features": []
@@ -49,15 +48,15 @@ export default class Home extends React.Component {
             }
 
             _.each(nextbusVehicles, (vehicleInfo) => {
-                console.log(vehicleInfo.lon, vehicleInfo.lat);
                 let featureClone = _.cloneDeep(feature);
                 featureClone.geometry.coordinates = [vehicleInfo.lon, vehicleInfo.lat];
-                console.log(featureClone);
                 geoJson.features.push(featureClone);
             });
 
             return geoJson;
         }
+
+        throw new Error('Nextbus vehicles array is missing');
     }
 
     componentDidMount() {
@@ -77,8 +76,6 @@ export default class Home extends React.Component {
                 this.setState({
                     muniData: this.convertNextbusDataToGeoJSON(data.vehicle)
                 });
-                console.log('MuniData');
-                console.log(this.state.muniData);
             });
 
         fetch('/assets/sfmaps/freeways.json')
@@ -122,15 +119,92 @@ export default class Home extends React.Component {
             });
     }
 
+    getFreeways(freewaysData) {
+        if(!freewaysData) {
+            return null;
+        }
+
+        return (
+            <g className = 'freeways-g'>
+                  <LineGroup
+                      key = {'line-test'}
+                      data = {freewaysData}
+                      meshClass = {'freeways'}
+                  />
+            </g>
+        );
+    }
+
+    getNeigborhoods(neighborhoodsData) {
+        if(!neighborhoodsData) {
+            return null;
+        }
+
+        return (
+            <g className = 'neighborhoods-g'>
+                  <LineGroup
+                      key = {'line-test'}
+                      data = {neighborhoodsData}
+                      meshClass = {'neighborhoods'}
+                  />
+            </g>
+        );
+    }
+
+    getStreets(streetsData) {
+        if(!streetsData) {
+            return null;
+        }
+
+        return (
+            <g className = 'streets-g'>
+                  <LineGroup
+                      key = {'line-test'}
+                      data = {streetsData}
+                      meshClass = {'streets'}
+                  />
+            </g>
+        );
+    }
+
+    getArteries(arteriesData) {
+        if(!arteriesData) {
+            return null;
+        }
+
+        return (
+            <g className = 'arteries-g'>
+                  <LineGroup
+                      key = {'line-test'}
+                      data = {arteriesData}
+                      meshClass = {'arteries'}
+                  />
+            </g>
+        );
+    }
+
+    getPoints(muniData) {
+        if(!muniData) {
+            return null;
+        }
+
+        return (
+            <g className = 'points-g'>
+                <MarkerGroup
+                  key = {'polygon-test'}
+                  data = {muniData}
+                  markerClass = {'your-marker-css-class'}
+                />
+            </g>
+        );
+    }
+
     render() {
-        if (!this.state.freewaysData || !this.state.neighborhoodsData || !this.state.arteriesData || !this.state.streetsData || !this.state.muniData) {
+        if (!this.state.freewaysData) {
             return (
                 <div>Loading</div>
             );
         }
-
-        console.log('Loaded');
-        console.log(this.state.muniData);
 
         return (
             <Map
@@ -140,41 +214,11 @@ export default class Home extends React.Component {
                 scaleExtent = {this.mapScaleExtent}
                 center = {this.mapCenter}
             >
-                  <g className = 'freeways-g'>
-                        <LineGroup
-                            key = {'line-test'}
-                            data = {this.state.freewaysData}
-                            meshClass = {'freeways'}
-                        />
-                  </g>
-                  <g className = 'neighborhoods-g'>
-                        <LineGroup
-                            key = {'line-test'}
-                            data = {this.state.neighborhoodsData}
-                            meshClass = {'neighborhoods'}
-                        />
-                  </g>
-                  <g className = 'streets-g'>
-                        <LineGroup
-                            key = {'line-test'}
-                            data = {this.state.streetsData}
-                            meshClass = {'streets'}
-                        />
-                  </g>
-                  <g className = 'arteries-g'>
-                        <LineGroup
-                            key = {'line-test'}
-                            data = {this.state.arteriesData}
-                            meshClass = {'arteries'}
-                        />
-                  </g>
-                  <g className = 'points-g'>
-                      <MarkerGroup
-                        key = {'polygon-test'}
-                        data = {this.state.muniData}
-                        markerClass = {'your-marker-css-class'}
-                      />
-                  </g>
+                  {this.getFreeways(this.state.freewaysData)}
+                  {this.getNeigborhoods(this.state.neighborhoodsData)}
+                  {this.getStreets(this.state.streetsData)}
+                  {this.getArteries(this.state.arteriesData)}
+                  {this.getPoints(this.state.muniData)}
               </Map>
         );
     }
