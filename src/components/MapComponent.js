@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { LineGroup, MarkerGroup } from 'react-d3-map';
 // app component
 export default class MapComponent extends React.Component {
@@ -53,3 +54,9 @@ export default class MapComponent extends React.Component {
         return this.getGroup(type, name, data);
     }
 }
+
+MapComponent.propTypes = {
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    data: PropTypes.object
+};
