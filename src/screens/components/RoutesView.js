@@ -19,6 +19,29 @@ export default class RoutesView extends React.Component {
             });
     }
 
+    getRoutesItems(routes) {
+//         tag
+// :
+// "MBUS"
+// title
+// :
+// "MBUS-M Oceanview Bus"
+        if (routes && Array.isArray(routes)) {
+            return _.map(routes, (route, i) => {
+                return (
+                    <li
+                        key = {i}
+                    >
+                        <input type = 'checkbox' name = 'route' value = {route.tag} />
+                            <label htmlFor = 'route'>{route.title}</label>
+                    </li>
+                );
+            });
+        }
+
+        return null;
+    }
+
     render() {
         if (!this.state.routes) {
             return (
@@ -30,7 +53,9 @@ export default class RoutesView extends React.Component {
 
         return (
             <div className = 'routes'>
-                Routes
+                <ul>
+                    {this.getRoutesItems(this.state.routes)}
+                </ul>
             </div>
         );
     }
