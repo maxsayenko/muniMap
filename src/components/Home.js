@@ -13,6 +13,7 @@ export default class Home extends React.Component {
         this.mapScaleExtent = [1 << 20, 1 << 24];
         this.mapCenter = [-122.44, 37.76];
         this.state = {
+            interval: null,
             freewaysData: null,
             neighborhoodsData: null,
             streetsData: null,
@@ -64,7 +65,8 @@ export default class Home extends React.Component {
         });
     }
 
-    componentDidMount() {
+    getNextBusFeed() {
+        console.log('getNextBusFeed at', new Date());
         fetch('http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni&r=38R')
             .then(response => response.json())
             .then(data => {
@@ -72,6 +74,13 @@ export default class Home extends React.Component {
                     muniData: this.convertNextbusDataToGeoJSON(data.vehicle)
                 });
             });
+    }
+
+    componentDidMount() {
+        const interval = window.setInterval(() => {
+                            this.getNextBusFeed()
+                        }, 5000)
+        this.setState({ interval })
 
         this.fetchGeoJsonFiles([
             {
