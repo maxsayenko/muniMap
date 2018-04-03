@@ -7,7 +7,6 @@ import { selectedRoutesChanged } from './../actions/RoutesActions';
 
 class Home extends React.Component {
     render() {
-        console.log('Home Render');
         const { selectedRoutesChanged } = this.props;
         return (
             <div className = 'map'>
