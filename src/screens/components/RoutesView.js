@@ -58,7 +58,6 @@ export default class RoutesView extends React.Component {
     }
 
     render() {
-        console.log('Routes View Render');
         if (!this.state.routes) {
             return (
                 <div>Loading routes</div>

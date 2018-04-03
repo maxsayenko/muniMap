@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Map } from 'react-d3-map';
 
 import MapComponent from './MapComponent';
 import Buses from './Buses';
 
-class MapView extends React.Component {
+export default class MapView extends React.Component {
     constructor() {
         super();
         this.updateInterval = 15000;
@@ -112,7 +110,6 @@ class MapView extends React.Component {
     }
 
     render() {
-        console.log('MapViewRender');
         if (!this.state.muniData) {
             return (
                 <div>Loading Map</div>
@@ -152,18 +149,3 @@ class MapView extends React.Component {
         );
     }
 }
-
-// const mapStateToProps = (state) => {
-//     const { selectedRoutes } = state.routes;
-//     console.log('MapView', selectedRoutes);
-//     return { selectedRoutes: ['38'] };
-// };
-
-export default connect(
-    null,
-    null
-)(MapView);
-
-MapView.propTypes = {
-    //selectedRoutes: PropTypes.array.isRequired
-};
