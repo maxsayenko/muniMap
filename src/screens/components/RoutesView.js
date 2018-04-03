@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-export default class RoutesView extends React.Component {
+class RoutesView extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -21,6 +22,7 @@ export default class RoutesView extends React.Component {
     }
 
     getRoutesItems(routes) {
+        const { selectedRoutes } = this.props;
         if (routes && Array.isArray(routes)) {
             return _.map(routes, (route, i) => {
                 return (
@@ -31,7 +33,7 @@ export default class RoutesView extends React.Component {
                             type = 'checkbox'
                             name = 'route'
                             value = {route.tag}
-                            //defaultChecked
+                            defaultChecked = {_.includes(selectedRoutes, route.tag)}
                             onClick = {this.handleClick.bind(this)}
                         />
                             <label htmlFor = 'route'>{route.title}</label>
@@ -73,6 +75,16 @@ export default class RoutesView extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    const { selectedRoutes } = state.routes;
+    return { selectedRoutes };
+};
+
+export default connect(
+    mapStateToProps,
+    null
+)(RoutesView);
 
 RoutesView.propTypes = {
     onRoutesChange: PropTypes.func.isRequired
