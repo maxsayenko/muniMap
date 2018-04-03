@@ -3,7 +3,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    selectedRoutes: ['38']
+    // Some pre-set routes
+    selectedRoutes: ['F', '1', '22', '38']
 };
 
 export default (state = INITIAL_STATE, action) => {

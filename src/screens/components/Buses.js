@@ -37,10 +37,6 @@ class Buses extends React.Component {
 
     convertNextbusDataToGeoJSON(nextbusVehicles) {
         if (nextbusVehicles && Array.isArray(nextbusVehicles)) {
-            const geoJson = {
-                type: 'FeatureCollection',
-                features: []
-            };
             const feature = {
                 type: 'Feature',
                 properties: {
@@ -52,14 +48,12 @@ class Buses extends React.Component {
                 }
             };
 
-            _.each(nextbusVehicles, (vehicleInfo) => {
+            return _.map(nextbusVehicles, (vehicleInfo) => {
                 const featureClone = _.cloneDeep(feature);
                 featureClone.geometry.coordinates = [vehicleInfo.lon, vehicleInfo.lat];
                 featureClone.properties.routeTag = vehicleInfo.routeTag;
-                geoJson.features.push(featureClone);
+                return featureClone;
             });
-
-            return geoJson;
         }
 
         throw new Error('Nextbus vehicles array is missing');
@@ -73,7 +67,7 @@ class Buses extends React.Component {
             );
         }
 
-        const busesToShow = _.reduce(this.state.muniData.features, (result, busGeoData) => {
+        const busesToShow = _.reduce(this.state.muniData, (result, busGeoData) => {
             if (_.includes(selectedRoutes, busGeoData.properties.routeTag)) {
                 result.push(busGeoData);
             }
