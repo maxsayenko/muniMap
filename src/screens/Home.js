@@ -11,27 +11,27 @@ class Home extends React.Component {
     }
 
     render() {
-        const { selectedRoutesChanged, selectedRoutes } = this.props;
+        console.log('Home Render');
+        const { selectedRoutesChanged } = this.props;
         return (
             <div className = 'map'>
                 <RoutesView
                     onRoutesChange = {selectedRoutesChanged}
                 />
-                <MapView
-                    selectedRoutes = {selectedRoutes}
-                />
+                <MapView />
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    const { selectedRoutes } = state.routes;
-    return { selectedRoutes };
-};
+// const mapStateToProps = (state) => {
+//     const { selectedRoutes } = state.routes;
+//     console.log(selectedRoutes);
+//     return { selectedRoutes: ['38'] };
+// };
 
 export default connect(
-    mapStateToProps,
+    null,
     {
         selectedRoutesChanged
     }

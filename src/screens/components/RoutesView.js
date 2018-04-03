@@ -53,10 +53,12 @@ export default class RoutesView extends React.Component {
             }
             return res;
         }, []);
+
         onRoutesChange(selectedCheckboxes);
     }
 
     render() {
+        console.log('Routes View Render');
         if (!this.state.routes) {
             return (
                 <div>Loading routes</div>
